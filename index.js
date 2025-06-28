@@ -14,10 +14,20 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/files/:filename", function (req, res) {
+  fs.readFile(
+    `./files/${req.params.filename}`,
+    "utf-8",
+    function (err, filedata) {
+      res.render("show", { filename: req.params.filename, filedata: filedata });
+    }
+  );
+});
+
 app.post("/create", function (req, res) {
   fs.writeFile(
-    `./files/${req.body.title.split(' ').join('')}.txt`,
-    req.body.details,   // this is content of the note given name attribute detail and it is in format of writefile
+    `./files/${req.body.title.split(" ").join("")}.txt`,
+    req.body.details, // this is content of the note given name attribute detail and it is in format of writefile
     function (err) {
       res.redirect("/");
     }
